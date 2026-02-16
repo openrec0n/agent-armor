@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentArmor — Security Config for Claude Code</title>
+  <link rel="stylesheet" href="/src/web/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="header">
+      <div class="header-content">
+        <h1 class="logo">AgentArmor</h1>
+        <p class="tagline">Generate security configurations for Claude Code sessions</p>
+        <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="docs-link">Claude Code Docs</a>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Target Selector -->
+      <section class="section" id="target-section">
+        <h2 class="section-title">Settings Target</h2>
+        <p class="section-desc">Where should the generated settings be deployed?</p>
+        <div class="card-row" id="target-selector"></div>
+      </section>
+
+      <!-- Profile Selector -->
+      <section class="section" id="profile-section">
+        <h2 class="section-title">Security Profile</h2>
+        <p class="section-desc">Choose a preset or customize individual threats.</p>
+        <div class="card-row" id="profile-selector"></div>
+      </section>
+
+      <!-- Threat Toggles -->
+      <section class="section" id="threats-section">
+        <h2 class="section-title">Threat Mitigations</h2>
+        <p class="section-desc">Toggle individual threats on or off. Severity: <span class="badge badge-high">HIGH</span> <span class="badge badge-medium">MEDIUM</span></p>
+        <div class="threat-grid" id="threat-panel"></div>
+      </section>
+
+      <!-- Customization -->
+      <section class="section collapsible" id="customization-section">
+        <h2 class="section-title clickable" id="customization-toggle">
+          Customization
+          <span class="chevron">&#9660;</span>
+        </h2>
+        <div class="collapsible-content" id="customization-panel"></div>
+      </section>
+
+      <!-- Merge Existing Config -->
+      <section class="section collapsible" id="merge-section">
+        <h2 class="section-title clickable" id="merge-toggle">
+          Merge with Existing Config
+          <span class="chevron">&#9660;</span>
+        </h2>
+        <div class="collapsible-content" id="merge-panel">
+          <p class="section-desc">Paste your existing settings.json to merge security rules without losing your other configuration.</p>
+          <textarea id="existing-config" class="config-textarea" placeholder='Paste your existing settings.json here...' rows="6"></textarea>
+          <div class="merge-actions">
+            <label class="toggle-label">
+              <input type="checkbox" id="merge-enabled" />
+              <span>Merge with existing</span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- Output -->
+      <section class="section" id="output-section">
+        <div class="output-header">
+          <h2 class="section-title">Generated Settings</h2>
+          <div class="output-stats" id="output-stats"></div>
+        </div>
+        <div class="warnings-panel" id="warnings-panel"></div>
+        <pre class="json-preview"><code id="settings-preview"></code></pre>
+        <div class="target-path" id="target-path"></div>
+        <div class="export-actions">
+          <button class="btn btn-primary" id="btn-copy">Copy to Clipboard</button>
+          <button class="btn btn-secondary" id="btn-download">Download JSON</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Open source. No data leaves your browser. <a href="https://github.com/openrec0n/agent-armor" target="_blank" rel="noopener">GitHub</a></p>
+    </footer>
+  </div>
+
+  <script type="module" src="/src/web/app.ts"></script>
+</body>
+</html>

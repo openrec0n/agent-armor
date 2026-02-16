@@ -1,0 +1,57 @@
+{
+  "name": "agent-armor",
+  "version": "0.1.0",
+  "description": "Security configuration generator for Claude Code sessions",
+  "type": "module",
+  "main": "./dist-lib/engine.js",
+  "module": "./dist-lib/engine.js",
+  "types": "./dist-lib/engine.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist-lib/engine.js",
+      "types": "./dist-lib/engine.d.ts"
+    }
+  },
+  "files": [
+    "dist-lib/",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:lib": "tsc -p tsconfig.lib.json",
+    "build:web": "tsc && vite build",
+    "build:all": "npm run build:lib && npm run build:web",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "typecheck:lib": "tsc --noEmit -p tsconfig.lib.json",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openrec0n/agent-armor.git"
+  },
+  "homepage": "https://openrec0n.github.io/agent-armor",
+  "bugs": {
+    "url": "https://github.com/openrec0n/agent-armor/issues"
+  },
+  "keywords": [
+    "claude-code",
+    "security",
+    "agent",
+    "llm",
+    "hardening",
+    "configuration",
+    "anthropic"
+  ],
+  "author": "AgentArmor contributors",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "vite": "^6.0.0",
+    "vitest": "^2.1.0"
+  }
+}
