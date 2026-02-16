@@ -1,5 +1,6 @@
 import { generateCurrentSettings } from '../app';
 import { clipboardIcon, downloadIcon, checkIcon } from '../icons';
+import { trackEvent } from '../analytics';
 
 export function renderExportPanel(): void {
   const copyBtn = document.getElementById('btn-copy');
@@ -23,6 +24,7 @@ export function renderExportPanel(): void {
 
     try {
       await navigator.clipboard.writeText(json);
+      trackEvent('config-copy');
       newCopy.innerHTML = `${checkIcon(16)} Copied!`;
       newCopy.classList.add('copied');
 
@@ -57,6 +59,7 @@ export function renderExportPanel(): void {
     a.download = 'settings.json';
     document.body.appendChild(a);
     a.click();
+    trackEvent('config-download');
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });

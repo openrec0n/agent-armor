@@ -31,7 +31,7 @@ AgentArmor generates hardened configs that block these attack vectors while keep
 4. **Customize** &mdash; add allowed domains, sandbox excluded commands, MCP server lists
 5. **Export** &mdash; copy to clipboard or download the generated `settings.json`
 
-Everything runs in your browser. No data leaves your machine.
+Everything runs in your browser. Your configs never leave your machine. Anonymous visit counts are tracked via [GoatCounter](https://www.goatcounter.com/) (no cookies, no personal data). [View analytics dashboard](https://agentarmor.goatcounter.com).
 
 ## Programmatic Usage
 
