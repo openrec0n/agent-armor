@@ -3,13 +3,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![npm version](https://img.shields.io/npm/v/agent-armor.svg)](https://www.npmjs.com/package/agent-armor)
 [![CI](https://github.com/openrec0n/agent-armor/actions/workflows/ci.yml/badge.svg)](https://github.com/openrec0n/agent-armor/actions/workflows/ci.yml)
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://openrec0n.github.io/agent-armor/)
 
 Security configuration generator for Claude Code sessions.
 
 Generate hardened `settings.json` configurations to protect Claude Code from data exfiltration, credential theft, privilege escalation, destructive operations, and other agent-targeted threats.
 
-**[Try the live demo &rarr;](https://openrec0n.github.io/agent-armor/)**
+**[Generate your config &rarr;](https://openrec0n.github.io/agent-armor/)**
 
 ## How It Works
 
