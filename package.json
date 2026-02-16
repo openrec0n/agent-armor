@@ -49,6 +49,10 @@
   ],
   "author": "AgentArmor contributors",
   "license": "MIT",
+  "publishConfig": {
+    "provenance": true,
+    "access": "public"
+  },
   "devDependencies": {
     "typescript": "^5.7.0",
     "vite": "^6.0.0",
