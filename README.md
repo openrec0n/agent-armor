@@ -4,15 +4,28 @@
 [![npm version](https://img.shields.io/npm/v/agent-armor.svg)](https://www.npmjs.com/package/agent-armor)
 [![CI](https://github.com/openrec0n/agent-armor/actions/workflows/ci.yml/badge.svg)](https://github.com/openrec0n/agent-armor/actions/workflows/ci.yml)
 
-Security configuration generator for Claude Code sessions.
+Harden Claude Code against prompt injection attacks.
 
-Generate hardened `settings.json` configurations to protect Claude Code from data exfiltration, credential theft, privilege escalation, destructive operations, and other agent-targeted threats.
+AI coding agents can be hijacked to steal credentials, exfiltrate source code, or run destructive commands - through injected instructions, rogue plugins, or misconfigured permissions.
+AgentArmor generates secure `settings.json` configs that block these vectors — in a few clicks, right in your browser.
 
 **[Generate your config &rarr;](https://openrec0n.github.io/agent-armor/)**
 
+![AgentArmor screenshot](docs/screenshot.png)
+
+## Why AgentArmor?
+
+AI coding agents are a growing target for prompt injection attacks. Real-world incidents include:
+
+- **CVE-2025-55284** &mdash; Source code exfiltrated via DNS lookups embedded in agent-generated commands
+- **Claude Pirate** &mdash; Credentials stolen by injecting `.env` file read commands through untrusted context
+- **ZombAI Agents** &mdash; Persistent backdoors installed using `--dangerously-skip-permissions` mode
+
+AgentArmor generates hardened configs that block these attack vectors while keeping your agent functional.
+
 ## How It Works
 
-1. **Choose a target** &mdash; where the settings will be deployed (user, project, local, or managed/enterprise)
+1. **Choose where to apply protection** &mdash; user, project, local, or managed/enterprise scope
 2. **Pick a profile** &mdash; Lax, Moderate (recommended), Strict, or Custom
 3. **Toggle individual threats** &mdash; enable/disable specific protections
 4. **Customize** &mdash; add allowed domains, sandbox excluded commands, MCP server lists
