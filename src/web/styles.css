@@ -903,6 +903,13 @@ a:hover {
   color: var(--accent);
   opacity: 0.5;
 }
+.footer .analytics-link {
+  color: var(--text-dim);
+  font-size: 0.75rem;
+}
+.footer .analytics-link:hover {
+  color: var(--text-muted);
+}
 
 /* ---- Page load animations ---- */
 @keyframes fadeInUp {
