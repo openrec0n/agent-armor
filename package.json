@@ -1,6 +1,6 @@
 {
   "name": "agent-armor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Security configuration generator for Claude Code sessions",
   "type": "module",
   "main": "./dist-lib/engine.js",
