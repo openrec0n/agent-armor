@@ -1,4 +1,5 @@
 import { generateCurrentSettings } from '../app';
+import { clipboardIcon, downloadIcon, checkIcon } from '../icons';
 
 export function renderExportPanel(): void {
   const copyBtn = document.getElementById('btn-copy');
@@ -12,16 +13,24 @@ export function renderExportPanel(): void {
   copyBtn.replaceWith(newCopy);
   downloadBtn.replaceWith(newDownload);
 
+  // Set button content with icons
+  newCopy.innerHTML = `${clipboardIcon(16)} Copy to Clipboard`;
+  newDownload.innerHTML = `${downloadIcon(16)} Download JSON`;
+
   newCopy.addEventListener('click', async () => {
     const result = generateCurrentSettings();
     const json = JSON.stringify(result.finalSettings, null, 2);
 
     try {
       await navigator.clipboard.writeText(json);
-      newCopy.textContent = 'Copied!';
+      newCopy.innerHTML = `${checkIcon(16)} Copied!`;
       newCopy.classList.add('copied');
+
+      // Show toast notification
+      showToast('Config copied to clipboard');
+
       setTimeout(() => {
-        newCopy.textContent = 'Copy to Clipboard';
+        newCopy.innerHTML = `${clipboardIcon(16)} Copy to Clipboard`;
         newCopy.classList.remove('copied');
       }, 2000);
     } catch {
@@ -51,4 +60,28 @@ export function renderExportPanel(): void {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   });
+}
+
+function showToast(message: string): void {
+  // Remove any existing toast
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.setAttribute('role', 'status');
+  toast.innerHTML = checkIcon(16);
+  toast.appendChild(document.createTextNode(` ${message}`));
+  document.body.appendChild(toast);
+
+  // Trigger animation
+  requestAnimationFrame(() => {
+    toast.classList.add('show');
+  });
+
+  // Remove after 2s
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => toast.remove(), 300);
+  }, 2000);
 }

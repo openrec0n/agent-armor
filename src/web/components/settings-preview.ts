@@ -1,5 +1,6 @@
 import { generateCurrentSettings, getState } from '../app';
 import { getTargetPath } from '../../core/engine';
+import { THREATS } from '../../core/threats';
 import { escapeHtml } from '../utils';
 
 export function renderSettingsPreview(): void {
@@ -7,6 +8,7 @@ export function renderSettingsPreview(): void {
   const statsEl = document.getElementById('output-stats');
   const warningsEl = document.getElementById('warnings-panel');
   const pathEl = document.getElementById('target-path');
+  const summaryEl = document.getElementById('output-summary');
   if (!previewEl || !statsEl || !warningsEl || !pathEl) return;
 
   const state = getState();
@@ -22,6 +24,32 @@ export function renderSettingsPreview(): void {
     <span class="stat-applied">${appliedCount} applied</span>
     ${skippedCount > 0 ? `<span class="stat-skipped">&middot; ${skippedCount} skipped</span>` : ''}
   `;
+
+  // Human-readable summary
+  if (summaryEl) {
+    const enabledThreatNames = [...state.enabledThreats]
+      .map((id) => THREATS.find((t) => t.id === id)?.name)
+      .filter(Boolean) as string[];
+
+    if (enabledThreatNames.length > 0) {
+      let summaryText: string;
+      if (enabledThreatNames.length <= 2) {
+        summaryText = `Your config protects against <strong>${enabledThreatNames.map((n) => escapeHtml(n)).join('</strong> and <strong>')}</strong>.`;
+      } else {
+        const first = enabledThreatNames.slice(0, 2).map((n) => escapeHtml(n));
+        const remaining = enabledThreatNames.length - 2;
+        summaryText = `Your config protects against <strong>${first.join('</strong>, <strong>')}</strong>, and ${remaining} more threat${remaining > 1 ? 's' : ''}.`;
+      }
+
+      if (skippedCount > 0) {
+        summaryText += ` ${skippedCount} protection${skippedCount > 1 ? 's were' : ' was'} skipped (not available for the ${state.target} target).`;
+      }
+
+      summaryEl.innerHTML = `<div class="output-summary">${summaryText}</div>`;
+    } else {
+      summaryEl.innerHTML = '';
+    }
+  }
 
   // Warnings
   if (result.skippedMitigations.length > 0) {

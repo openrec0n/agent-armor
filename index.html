@@ -10,39 +10,58 @@
   <div id="app">
     <header class="header">
       <div class="header-content">
+        <div class="header-icon" id="header-icon"></div>
         <h1 class="logo">AgentArmor</h1>
         <p class="tagline">Generate security configurations for Claude Code sessions</p>
-        <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="docs-link">Claude Code Docs</a>
+        <p class="tagline-sub">Protect your AI coding agent from prompt injection, data theft, and privilege escalation</p>
+        <div class="how-it-works">
+          Choose a security level <span class="step-arrow">&rarr;</span>
+          Customize protections <span class="step-arrow">&rarr;</span>
+          Export your config
+        </div>
+        <div>
+          <a href="https://github.com/anthropics/claude-code" target="_blank" rel="noopener" class="docs-link">Claude Code Docs</a>
+        </div>
       </div>
     </header>
 
     <main class="main">
       <!-- Target Selector -->
       <section class="section" id="target-section">
-        <h2 class="section-title">Settings Target</h2>
-        <p class="section-desc">Where should the generated settings be deployed?</p>
+        <div class="section-header">
+          <span class="step-num">01</span>
+        </div>
+        <h2 class="section-title" id="target-title">Where to Apply Protection</h2>
+        <p class="section-desc">Choose where your security rules will be enforced.</p>
         <div class="card-row" id="target-selector"></div>
+        <div id="target-warning-container"></div>
       </section>
 
       <!-- Profile Selector -->
       <section class="section" id="profile-section">
-        <h2 class="section-title">Security Profile</h2>
-        <p class="section-desc">Choose a preset or customize individual threats.</p>
+        <div class="section-header">
+          <span class="step-num">02</span>
+        </div>
+        <h2 class="section-title" id="profile-title">Choose Your Security Level</h2>
+        <p class="section-desc">Start with a preset &mdash; you can fine-tune individual protections below.</p>
         <div class="card-row" id="profile-selector"></div>
       </section>
 
       <!-- Threat Toggles -->
       <section class="section" id="threats-section">
-        <h2 class="section-title">Threat Mitigations</h2>
-        <p class="section-desc">Toggle individual threats on or off. Severity: <span class="badge badge-high">HIGH</span> <span class="badge badge-medium">MEDIUM</span></p>
+        <div class="section-header">
+          <span class="step-num">03</span>
+        </div>
+        <h2 class="section-title" id="threats-title">Fine-Tune Protections</h2>
+        <p class="section-desc">Toggle individual protections on or off based on your needs. Severity: <span class="badge badge-high">HIGH</span> <span class="badge badge-medium">MEDIUM</span></p>
         <div class="threat-grid" id="threat-panel"></div>
       </section>
 
       <!-- Customization -->
       <section class="section collapsible" id="customization-section">
         <h2 class="section-title clickable" id="customization-toggle">
-          Customization
-          <span class="chevron">&#9660;</span>
+          Advanced Settings
+          <span class="chevron" id="customization-chevron"></span>
         </h2>
         <div class="collapsible-content" id="customization-panel"></div>
       </section>
@@ -51,7 +70,7 @@
       <section class="section collapsible" id="merge-section">
         <h2 class="section-title clickable" id="merge-toggle">
           Merge with Existing Config
-          <span class="chevron">&#9660;</span>
+          <span class="chevron" id="merge-chevron"></span>
         </h2>
         <div class="collapsible-content" id="merge-panel">
           <p class="section-desc">Paste your existing settings.json to merge security rules without losing your other configuration.</p>
@@ -67,10 +86,14 @@
 
       <!-- Output -->
       <section class="section" id="output-section">
+        <div class="section-header">
+          <span class="step-num">04</span>
+        </div>
         <div class="output-header">
-          <h2 class="section-title">Generated Settings</h2>
+          <h2 class="section-title" id="output-title">Your Security Config</h2>
           <div class="output-stats" id="output-stats"></div>
         </div>
+        <div id="output-summary"></div>
         <div class="warnings-panel" id="warnings-panel"></div>
         <pre class="json-preview"><code id="settings-preview"></code></pre>
         <div class="target-path" id="target-path"></div>
@@ -81,7 +104,7 @@
       </section>
     </main>
 
-    <footer class="footer">
+    <footer class="footer" id="footer">
       <p>Open source. No data leaves your browser. <a href="https://github.com/openrec0n/agent-armor" target="_blank" rel="noopener">GitHub</a></p>
     </footer>
   </div>
