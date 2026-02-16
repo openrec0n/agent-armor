@@ -9,6 +9,7 @@ import { renderThreatPanel } from './components/threat-panel';
 import { renderCustomizationPanel } from './components/customization-panel';
 import { renderSettingsPreview } from './components/settings-preview';
 import { renderExportPanel } from './components/export-panel';
+import { shieldIcon, chevronDownIcon, targetIcon, layersIcon, alertTriangleIcon, codeIcon, slidersIcon, gitMergeIcon, shieldCheckIcon } from './icons';
 
 // ---- App State ----
 
@@ -40,6 +41,9 @@ const state: AppState = {
   existingConfig: '',
 };
 
+// Threats that trigger customization panel auto-expand
+const CUSTOMIZABLE_THREATS: ThreatId[] = ['sandbox-enforcement', 'data-exfiltration', 'malicious-mcp'];
+
 // ---- State accessors ----
 
 export function getState(): ReadonlyAppState {
@@ -60,10 +64,12 @@ export function setProfile(profile: ProfileId): void {
     }
   }
   update();
+  autoExpandCustomization();
 }
 
 export function toggleThreat(id: ThreatId): void {
-  if (state.enabledThreats.has(id)) {
+  const wasEnabled = state.enabledThreats.has(id);
+  if (wasEnabled) {
     state.enabledThreats.delete(id);
   } else {
     state.enabledThreats.add(id);
@@ -71,6 +77,11 @@ export function toggleThreat(id: ThreatId): void {
   // Switching to custom when user manually toggles
   state.profile = detectProfile();
   update();
+
+  // Auto-expand customization if enabling a customizable threat
+  if (!wasEnabled && CUSTOMIZABLE_THREATS.includes(id)) {
+    autoExpandCustomization();
+  }
 }
 
 export function setAllowedDomains(domains: string[]): void {
@@ -119,6 +130,16 @@ function detectProfile(): ProfileId {
   return 'custom';
 }
 
+function autoExpandCustomization(): void {
+  const hasCustomizable = CUSTOMIZABLE_THREATS.some((id) => state.enabledThreats.has(id));
+  if (hasCustomizable) {
+    const section = document.getElementById('customization-section');
+    if (section && !section.classList.contains('open')) {
+      section.classList.add('open');
+    }
+  }
+}
+
 export function generateCurrentSettings(): ReturnType<typeof generate> & { finalSettings: ClaudeCodeSettings } {
   const result = generate({
     enabledThreats: [...state.enabledThreats],
@@ -163,6 +184,59 @@ function update(): void {
 // ---- Init ----
 
 function init(): void {
+  // Render header icon
+  const headerIcon = document.getElementById('header-icon');
+  if (headerIcon) {
+    headerIcon.innerHTML = shieldIcon(48);
+  }
+
+  // Render section title icons
+  injectTitleIcon('target-title', targetIcon(20));
+  injectTitleIcon('profile-title', layersIcon(20));
+  injectTitleIcon('threats-title', alertTriangleIcon(20));
+  injectTitleIcon('output-title', codeIcon(20));
+
+  // Render chevron icons for collapsible sections
+  const customizationChevron = document.getElementById('customization-chevron');
+  if (customizationChevron) {
+    customizationChevron.innerHTML = chevronDownIcon(16);
+  }
+  const mergeChevron = document.getElementById('merge-chevron');
+  if (mergeChevron) {
+    mergeChevron.innerHTML = chevronDownIcon(16);
+  }
+
+  // Inject icons into collapsible section titles
+  const customizationToggle = document.getElementById('customization-toggle');
+  if (customizationToggle) {
+    const textNode = customizationToggle.firstChild;
+    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+      const iconSpan = document.createElement('span');
+      iconSpan.innerHTML = slidersIcon(20);
+      iconSpan.className = 'icon';
+      customizationToggle.insertBefore(iconSpan, textNode);
+    }
+  }
+  const mergeToggle = document.getElementById('merge-toggle');
+  if (mergeToggle) {
+    const textNode = mergeToggle.firstChild;
+    if (textNode && textNode.nodeType === Node.TEXT_NODE) {
+      const iconSpan = document.createElement('span');
+      iconSpan.innerHTML = gitMergeIcon(20);
+      iconSpan.className = 'icon';
+      mergeToggle.insertBefore(iconSpan, textNode);
+    }
+  }
+
+  // Render footer icon
+  const footer = document.getElementById('footer');
+  if (footer) {
+    const p = footer.querySelector('p');
+    if (p) {
+      p.insertAdjacentHTML('afterbegin', shieldCheckIcon(14) + ' ');
+    }
+  }
+
   // Setup collapsible toggles
   setupCollapsible('customization-toggle', 'customization-section');
   setupCollapsible('merge-toggle', 'merge-section');
@@ -180,6 +254,13 @@ function init(): void {
 
   // Initial render
   update();
+}
+
+function injectTitleIcon(elementId: string, iconHtml: string): void {
+  const el = document.getElementById(elementId);
+  if (el) {
+    el.insertAdjacentHTML('afterbegin', iconHtml + ' ');
+  }
 }
 
 function setupCollapsible(toggleId: string, sectionId: string): void {
